@@ -1,0 +1,10 @@
+{% load latex_tags %}
+<label for="status" style="color: rgb(1, 184, 123);">Status:</label>
+<span id="status">{{status}}</span>
+<label for="logic_answer" style="color: rgb(1, 184, 123);">Logic Answer:</label>
+<span id="logic_answer">{{logic_answer|latex_to_html}}</span>
+<label for="logic_reasoning" style="color: rgb(1, 184, 123);">Logic Reasoning:</label>
+<span id="logic_reasoning">{{logic_reasoning|latex_to_html}}</span>
+<script>
+    console.log('{{logic_answer}}');
+</script>

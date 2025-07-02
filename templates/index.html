@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Input Form</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f8;
+            padding: 40px;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        button {
+            background-color: #2d8cf0;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            font-size: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #1c6cd8;
+        }
+
+        .result-box {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #d0d0d0;
+            background: #f9f9f9;
+            border-radius: 8px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-container">
+        <h2>Task Input</h2>
+        <form id="inputForm" method="post">
+            <label for="logic_question">Logic Question*:</label>
+
+            <textarea id="logic_question" name="logic_question" placeholder="Enter Question" required>Calc sin(30)</textarea>
+
+            <div id="result_dom"></div>
+
+            <br>
+
+            <button type="button" id="solve_task">Submit</button>
+            <button type="button" id="check_api">Check API</button>
+        </form>
+
+        <div id="result" class="result-box" style="display: none;"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $('#solve_task').click(() => {
+            const logic_question = $('#logic_question').val();
+            const task = {
+                logic_question,
+            };
+
+            console.log(task);
+
+            $.post("/solve_task_dom", task, (data) => {
+                $('#result_dom').html(data);
+            });
+        });
+        $('#check_api').click(() => {
+            const logic_question = $('#logic_question').val();
+            const task = {
+                logic_question,
+            };
+
+            console.log(task);
+
+            $.post("/solve_task", task, (data) => {
+                console.log(data);
+            });
+        });
+    </script>
+</body>
+
+</html>

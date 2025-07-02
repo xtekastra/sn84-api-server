@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>History Detail</title>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #222;
+        }
+
+        .meta {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .meta span {
+            margin-right: 20px;
+        }
+
+        .field {
+            margin-bottom: 24px;
+        }
+
+        .label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #555;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .value {
+            background-color: #f9fafb;
+            padding: 14px;
+            border-left: 4px solid #4f8df9;
+            border-radius: 6px;
+            white-space: pre-line;
+            color: #333;
+        }
+
+        .status-badge {
+            background-color: #e3f2fd;
+            color: #1976d2;
+            font-size: 13px;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            text-decoration: none;
+            color: #1976d2;
+            font-weight: bold;
+            border: 1px solid #1976d2;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .back-link:hover {
+            background-color: #1976d2;
+            color: white;
+        }
+    </style>
+    <!-- jQuery -->
+
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+
+</head>
+
+<body>
+
+    <div class="container">
+        <a href="javascript:" onclick="history.back()" class="back-link">← Back to List</a>
+        <div class="field">
+            <div class="label">Request ID</div>
+            <div class="value" id="question-content">
+                {{history.request_id}}
+            </div>
+            <button onclick="rerun('{{history.request_id}}')"
+                style="margin-top: 10px; padding: 6px 12px; font-size: 13px; background-color: #4f8df9; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                Rerun
+            </button>
+        </div>
+        
+        <div class="field">
+            <div class="label">Task Type</div>
+            <div class="value" id="question-content">
+                {{history.task_type}}
+            </div>
+        </div>
+        
+        <div class="field">
+            <div class="label">Predcitions</div>
+            <div class="value" id="question-content">
+                {{history.predictions}}
+            </div>
+        </div>
+        <div class="field">
+            <div class="label">Image</div>
+            <div class="value" id="question-content">
+                <img src="data:image/png;base64,{{ history.image }}" style="width: 80%;"/>
+            </div>
+        </div>
+
+
+        <div class="meta">
+            <span><strong>Created:</strong> {{ history.created|date:"Y-m-d H:i" }}</span>
+            <span><strong>Version:</strong> {{ history.version_code }}</span>
+            <span><strong>Status:</strong> <span class="status-badge">{{ history.status }}</span></span>
+        </div>
+        <a href="javascript:" onclick="history.back()" class="back-link">← Back to List</a>
+
+    </div>
+
+    <!-- Toastr.js CSS + JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        function rerun(request_id) {
+            console.log('rerun task: ' + request_id);
+            $.post("/rerun", {request_id}, (data) => {
+                console.log(data);
+                if (data.status == 'ok') {
+                    location.href = '';
+                }
+            });
+        }
+
+
+        toastr.options = {
+            closeButton: false,
+            progressBar: true,
+            timeOut: 500,
+            positionClass: "toast-top-right"
+        };
+    </script>
+
+</body>
+
+</html>
