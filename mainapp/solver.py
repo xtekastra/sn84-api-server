@@ -15,7 +15,7 @@ async def solve(image: str, request_id: str, task_type: str):
         p = """Extract and clearly structure the main content from this document. Give me the result only as python list format like this: ["XXX", "XXX"], DO NOT include this kind of string: **```python**."""
         if task_type in PROMPT:
             p = PROMPT[task_type]
-        messages = [
+            messages = [
             {
                 "role": "user",
                 "content": [
@@ -28,9 +28,9 @@ async def solve(image: str, request_id: str, task_type: str):
             }
         ]
 
-        client = openai.AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
+        client = openai.AsyncOpenAI(api_key='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')
         response = await client.responses.create(
-            model=settings.OPENAI_MODEL,
+            model="gpt-4.1",
             input=messages,
         )
         
