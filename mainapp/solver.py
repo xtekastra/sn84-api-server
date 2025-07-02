@@ -28,9 +28,9 @@ async def solve(image: str, request_id: str, task_type: str):
             }
         ]
 
-        client = openai.AsyncOpenAI(api_key='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')
+        client = openai.AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
         response = await client.responses.create(
-            model="gpt-4.1",
+            model=settings.OPENAI_MODEL,
             input=messages,
         )
         
