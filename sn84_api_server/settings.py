@@ -12,12 +12,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 
-import environ
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-env = environ.Env(DEBUG=(bool, False))
-environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 
 # Quick-start development settings - unsuitable for production
@@ -128,8 +125,10 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-OPENAI_API_KEY = env("OPENAI_API_KEY")
-OPENAI_MODEL = env("OPENAI_MODEL", default="gpt-4o-mini")
-OPENAI_MODEL = 'gpt-4.1'
-SOLVER_VERSION_CODE = env("SOLVER_VERSION_CODE", default=100)
-SOLVER_VERSION_NAME = env("SOLVER_VERSION_NAME", default="1.0.0")
+from dotenv import load_dotenv
+load_dotenv(dotenv_path=".env", override=True)
+
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+OPENAI_MODEL = os.getenv("OPENAI_MODEL", default="gpt-4o-mini")
+SOLVER_VERSION_CODE = os.getenv("SOLVER_VERSION_CODE", default=100)
+SOLVER_VERSION_NAME = os.getenv("SOLVER_VERSION_NAME", default="1.0.0")
